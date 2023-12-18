@@ -137,6 +137,7 @@ print A[i] or *(A+i) //value of element at index i
 int SumOfElements(int A[], int size)
 {
   int i, sum = 0;
+  int size = sizeof(A)/sizeof(A[0]); // size is 8
   for (i = 0; i < size; i++)
   {
     sum += A[i];
@@ -146,13 +147,27 @@ int SumOfElements(int A[], int size)
 int main()
 {
   int A[] = {1,2,3,4,5};
-  int size = sizeof(A)/sizeof(A[0]);
+  int size = sizeof(A)/sizeof(A[0]); //size is 20
   int total = SumOfElements(A,size);
   printf("Sum of elements = %d\n",total);
 }
 ```
 
-### Character Arrays and Pointers
+- Pointer of array A is passed to the SumOfElements function, not the whole array
+- Array as function arguments is using call by reference
+- The changes made to the array in the function will change the value of the array and be reflected in the main function.
+- Size of array has to be calculated in main function and passed to the SumOfElements function
+- Both name of array A `SumOfElements(A, size)`and the pointer to the first element `SumOfElements(&A[0], size)` can be passed to SumOfElements function. If the pointer to the first element was used, it can be treated as pointer variable that can perform all other pointer operations, such as increment or decrement. It cannot be done if array name was passed in.
+
+### Character Arrays (Strings) and Pointers
+
+1. How to store strings
+
+   size of array >= no. of characters in string + 1
+
+   1 is used to store the ending of the string - NULL character ('/0')
+
+2. Character arrays and pointers are different types that are used in similar manner
 
 ### Pointers & 2D arrays
 
