@@ -157,7 +157,7 @@ int main()
 - Array as function arguments is using call by reference
 - The changes made to the array in the function will change the value of the array and be reflected in the main function.
 - Size of array has to be calculated in main function and passed to the SumOfElements function
-- Both name of array A `SumOfElements(A, size)`and the pointer to the first element `SumOfElements(&A[0], size)` can be passed to SumOfElements function. If the pointer to the first element was used, it can be treated as pointer variable that can perform all other pointer operations, such as increment or decrement. It cannot be done if array name was passed in.
+- Both name of array A `SumOfElements(A, size)`and the pointer to the first element `SumOfElements(&A[0], size)` can be passed to SumOfElements function. If the pointer to the first element was used, it can be treated as pointer variable that can perform pointer arithmetic and dereferencing. It cannot be done if array name was passed in.
 
 ### Character Arrays (Strings) and Pointers
 
@@ -169,8 +169,83 @@ int main()
 
 2. Character arrays and pointers are different types that are used in similar manner
 
+   Pointers to character arrays can be used to manipulate value of character or traverse through the array
+
+3. Character arrays are always passed to functions by reference
+
 ### Pointers & 2D arrays
+
+Pointer to 2D arrays:
+
+```
+int A[i][j]; //i number of one dimentional array of size j
+int (*p)[j] = A;
+A[0] //1-D array of j number of integers (size of 4 bytes * j)
+For 2-D arrays:
+A[i][j] = *(A[i]+j) //A[i] == int* (integer pointer)
+        = *(*(A+i)+j)
+```
+
+Examples:
+
+```
+int A[2][3];
+
+Pointer to 1-D array of size 3:
+print A or &A[0] // address of starting point of first one-dimentional array
+print A+1 or &A[1] // move to the next one-dimentional array
+
+Pointer to integer:
+print *A or A[0] or &A[0][0] // pointer to the first integer of A[0]
+print *(A+1) or A[1] or &A[1][0]
+print *(A+1) + 2 or A[1]+2 or &A[1][2]
+
+print *(*A + 1) or A[0][1] // value of A[0][1]
+```
+
+The type of pointers matters when dereferencing and performing pointer arithmetic
 
 ### Pointers & multidemensional arrays
 
-## Pointers & Memory
+```
+int A[i][j][k]
+A collection of i number of j dimentional arrays of size k
+int(*p)[j][k] = A;
+A[i][j][k] = *(A[i][j]+k) = *(*(A[i]+j)+k)= *(*(*(C+i)+j)+k)
+```
+
+Examples:
+
+```
+int A[3][2][2]; //A collection of 3 2-dimensional arrays of size 2
+int (*P)[2][2] = A;
+print A; // int (*)[2][2]
+print *A OR A[0] or &A[0][0] // int (*)[2] pointer to one dimensional array of 2 integers
+print *(A[0][1] + 1) or A[0][1][1] //int *(integer pointer) + 1 (move one integer size of 4 bytes)
+print *(A[1]+1) or A[1][1] or &A[1][1][0] //int *[2](array pointer) + 1 (move to next one dimentional array of 2 integers)
+```
+
+Passing multiple arrays as function arguments:
+
+```
+void Function(int *A) // 1-D array of integers
+{
+}
+void Function(int *A[j] or A[][j]) // 2-D array of integers, size has to be specified
+{
+}
+void Function(int *A[][j][k]) // 3-D array of integers
+{
+}
+```
+
+Size has to be specified and passed in different size of multidimensional arrays needs to change size j
+
+## Pointers & Dynamic Memory
+
+| Application's Memory | Storage                          | Note |
+| -------------------- | -------------------------------- | ---- |
+| Heap                 |                                  |      |
+| Stack                | Function calls & local variables |      |
+| Static/Global        | Global variables                 |      |
+| Code(Text)           | Instructions                     |      |
